@@ -19,7 +19,7 @@
       </div>
       <div id="tables">
         <div id="choice">
-          <select>
+          <select onChange="search(this)">
             <option>全台</option>
             <option>基隆市</option>
             <option>台北市</option>
@@ -44,7 +44,14 @@
           </select>
         </div>
         <div id="stations">
-          <tbody id="table">
+         <table id="datas">
+          <tbody>
+            <tr>
+              <td>加油站名稱</td>
+              <td>地址</td>
+              <td>開門時間</td>
+              <td>關門時間</td>
+            </tr>
             <tr>
               <td>台灣中油-大武崙站</td>
               <td>基隆市安樂區基金三路2-1號</td>
@@ -3724,6 +3731,7 @@
               <td>18:00</td>
             </tr>
           </tbody>
+         </table>
         </div>
       </div>
     </div>

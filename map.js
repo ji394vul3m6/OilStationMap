@@ -10,3 +10,30 @@ function initialize() {
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
+function search(obj){
+  console.log(obj.options[obj.selectedIndex].value);
+  key=obj.options[obj.selectedIndex].value;
+  if(key=="全台")
+    showAll()
+  else{
+    var dataId = document.getElementById('datas');
+    var dataLength = dataId.rows.length;
+    var searchCol = 1;
+    for(var i=1; i<dataLength; i++){
+      var searchText = dataId.rows[i].cells[searchCol].innerHTML;
+      if(searchText.match(key))
+        dataId.rows[i].style.display='';
+      else
+        dataId.rows[i].style.display="none";
+    }
+  }
+}
+
+function showAll(){
+  var dataId = document.getElementById('datas');
+  var dataLength = dataId.rows.length;
+  var searchCol = 1;
+  for(var i=0; i<dataLength; i++){
+    dataId.rows[i].style.display='';
+  }
+}

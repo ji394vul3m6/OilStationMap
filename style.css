@@ -53,6 +53,6 @@ html, body {
 
 #stations {
   overflow: scroll;
-  overflow-x: auto;
-  overflow-y: auto;
+  overflow-x:auto;
+  height:95%;
 }
