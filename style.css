@@ -1,0 +1,58 @@
+html, body {
+  height: 100%;
+  margin: 0px;
+  padding: 0px
+}
+
+#bar{
+  height: 10%;
+}
+
+#title{
+  margin: 0 auto;
+  text-align: center;
+  font-size: 36px;
+}
+
+.line{
+  height: 8px;
+  width: 70%;
+  background: gray;
+  border-radius: 4px;
+  margin: 10px auto;
+}
+
+#content{
+  height: 90%;
+  border: 2px solid black;
+}
+
+#map{
+  height: 100%;
+  width: 50%;
+  float:left;
+  border-right: 2px solid black;
+}
+
+#map-canvas{
+  height: 100%;
+}
+
+#tables {
+  height: 100%;
+  width: auto;
+  margin: 0;
+  padding: 10px 20px;
+/*  float:right;*/
+  overflow: hidden;
+}
+
+#choice {
+  width: 100%;
+}
+
+#stations {
+  overflow: scroll;
+  overflow-x: auto;
+  overflow-y: auto;
+}

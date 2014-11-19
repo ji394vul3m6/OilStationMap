@@ -1,1 +1,51 @@
-My Page
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <link rel=stylesheet type="text/css" href="style.css">
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script type="text/javascript" src="map.js"></script>
+  </head>
+  <body>
+    <div id="bar">
+      <div id="title">中油直營加油站</div>
+      <div class="line"></div>
+    </div>
+    <div id="content">
+      <div id="map">
+        <div id="map-canvas"></div>
+      </div>
+      <div id="tables">
+        <div id="choice">
+          <select>
+            <option>全台</option>
+            <option>基隆市</option>
+            <option>台北市</option>
+            <option>新北市</option>
+            <option>桃園縣</option>
+            <option>新竹市</option>
+            <option>新竹縣</option>
+            <option>苗栗縣</option>
+            <option>台中市</option>
+            <option>彰化縣</option>
+            <option>南投縣</option>
+            <option>雲林縣</option>
+            <option>嘉義縣</option>
+            <option>嘉義市</option>
+            <option>台南市</option>
+            <option>高雄市</option>
+            <option>屏東縣</option>
+            <option>宜蘭縣</option>
+            <option>花蓮縣</option>
+            <option>台東縣</option>
+            <option>澎湖縣</option>
+          </select>
+        </div>
+        <div id="stations">
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
