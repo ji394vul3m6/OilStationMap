@@ -41,6 +41,22 @@ function initialize() {
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
+
+function setCenter(key){
+  if(key=="全台"){
+    map.setCenter(new google.maps.LatLng(23.5466, 121.083));
+    map.setZoom(8);
+  }else{
+    geocoder.geocode({'address':key}, function(results, stats){
+      console.log(results);
+      console.log(results[0].geometry.location);
+      map.setCenter(results[0].geometry.location);
+      //map.setZoom(11);
+      //use auto zoom here via wet bound
+      map.fitBounds(results[0].geometry.bounds);
+    });
+  }
+}
 /* cannot use due to max query in one second is 10
 function codeAddress(address,t) {
   var infowindow = new google.maps.InfoWindow({
@@ -84,6 +100,7 @@ function search(obj){
   clearMarkers();
   console.log(obj.options[obj.selectedIndex].value);
   key=obj.options[obj.selectedIndex].value;
+  setCenter(key);
   if(key=="全台")
     showAll()
   else{
