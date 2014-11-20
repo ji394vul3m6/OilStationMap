@@ -49,10 +49,23 @@ html, body {
 
 #choice {
   width: 100%;
+  padding: 10px 0px;
 }
 
 #stations {
   overflow: scroll;
   overflow-x:auto;
-  height:95%;
+  height:90%;
+}
+
+#datas{
+  border: 1px;
+}
+
+.table-title{
+  background: #CCCCCC;
+}
+
+#datas td{
+  min-width: 70px;
 }

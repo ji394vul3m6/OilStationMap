@@ -28,6 +28,7 @@ function initialize() {
   }
   dataId = document.getElementById("datas");
   dataLength = dataId.rows.length;
+  showAll();
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -85,6 +86,7 @@ function search(obj){
       }else
         dataId.rows[i].style.display="none";
     }
+    hideLnglat();
   }
 }
 
@@ -93,10 +95,23 @@ function showAll(){
     dataId.rows[i].style.display='';
     showRow(i);
   }
+  hideLnglat();
+}
+
+function hideLnglat(){
+  for(var i=0; i<dataLength; i++){
+    dataId.rows[i].cells[4].style.display="none";
+    dataId.rows[i].cells[5].style.display="none";
+  }
 }
 
 function showRow(i){
   //codeAddress(dataId.rows[i].cells[1].innerHTML, dataId.rows[i].cells[0].innerHTML);
+  row = dataId.rows[i];
+  var position = new google.maps.LatLng(
+          parseFloat(row.cells[4].innerHTML),
+          parseFloat(row.cells[5].innerHTML));
+  addMark(map,position,row.cells[0].innerHTML);
 }
 
 function setAllMap(map){
