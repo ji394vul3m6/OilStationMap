@@ -29,6 +29,15 @@ function initialize() {
   dataId = document.getElementById("datas");
   dataLength = dataId.rows.length;
   showAll();
+  for (var i=0; i<dataLength; i++){
+    dataId.rows[i].style.height = "25px";
+    dataId.rows[i].cells[0].style.width = "260px"
+    dataId.rows[i].cells[1].style.width = "330px"
+    dataId.rows[i].cells[2].style.width = "75px"
+    dataId.rows[i].cells[2].style.textAlign = "center"
+    dataId.rows[i].cells[3].style.width = "75px"
+    dataId.rows[i].cells[3].style.textAlign = "center"
+  }
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
