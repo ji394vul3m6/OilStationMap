@@ -54,10 +54,17 @@ function setCenter(key){
     geocoder.geocode({'address':key}, function(results, stats){
       console.log(results);
       console.log(results[0].geometry.location);
-      map.setCenter(results[0].geometry.location);
+      //map.setCenter(results[0].geometry.location);
       //map.setZoom(11);
       //use auto zoom here via wet bound
-      map.fitBounds(results[0].geometry.bounds);
+      if(key=="高雄市"){//it have problem with query to Google map
+        map.setCenter(new google.maps.LatLng(22.7800751,120.3013485));
+        map.setZoom(10);
+      }else if(key=="宜蘭縣"){//it have problem with query to Google map
+        map.setCenter(new google.maps.LatLng(24.6489496,121.6413206));
+        map.setZoom(10);
+      }else
+        map.fitBounds(results[0].geometry.bounds);
     });
   }
 }
