@@ -4,6 +4,8 @@ var dataId;
 var dataLength;
 var searchCol=1;
 var markers = [];
+var time_now;
+var check_time;
 
 function initialize() {
   var mapOptions = {
@@ -39,6 +41,7 @@ function initialize() {
     dataId.rows[i].cells[3].style.width = "75px"
     dataId.rows[i].cells[3].style.textAlign = "center"
   }
+  time_now = new Date();
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -97,11 +100,19 @@ function addMark(_map, _position, _title){
   markers.push(marker);
 }
 
+function checktime()
+{
+  console.log("checktime");
+  search(document.getElementById("place"));
+}
+
 function search(obj){
   clearMarkers();
   console.log(obj.options[obj.selectedIndex].value);
   key=obj.options[obj.selectedIndex].value;
   setCenter(key);
+  check_time = document.getElementById("check-time").checked;
+  time_now = new Date();
   if(key=="全台")
     showAll()
   else{
@@ -135,6 +146,12 @@ function hideLnglat(){
 function showRow(i){
   //codeAddress(dataId.rows[i].cells[1].innerHTML, dataId.rows[i].cells[0].innerHTML);
   row = dataId.rows[i];
+  startTime = row.cells[2].innerHTML.split(":");
+  endTime = row.cells[3].innerHTML.split(":");
+  if(check_time){
+    if(!timeInRange(startTime,endTime,time_now))
+      return;
+  }
   var position = new google.maps.LatLng(
           parseFloat(row.cells[4].innerHTML),
           parseFloat(row.cells[5].innerHTML));
@@ -154,4 +171,18 @@ function clearMarkers(){
 function deleteMarkers(){
   clearMarkers();
   markers = [];
+}
+
+function timeInRange(start,end,now)
+{
+  now_hr = now.getHours();
+  now_min = now.getMinutes();
+  hr1 = parseInt(start[0]);
+  min1 = parseInt(start[1]);
+  hr2 = parseInt(end[0]);
+  min2 = parseInt(end[1]);
+  if(((now_hr==hr1 && now_min>min1) || now_hr>hr1) && 
+     ((now_hr==hr2 && now_min<min2) || now_hr<hr2))
+    return true;
+  return false;
 }

@@ -19,7 +19,7 @@
       </div>
       <div id="tables">
         <div id="choice">
-          <select onChange="search(this)">
+          <select onChange="search(this)" id="place">
             <option>全台</option>
             <option>基隆市</option>
             <option>台北市</option>
@@ -42,6 +42,7 @@
             <option>台東縣</option>
             <option>澎湖縣</option>
           </select>
+          <input type=checkbox id="check-time" onClick="checktime()">確定營業時間</input>
         </div>
         <div id="stations">
          <table id="datas" rules="all">
