@@ -152,6 +152,11 @@ function showRow(i){
     if(!timeInRange(startTime,endTime,time_now))
       return;
   }
+  if(check_time){
+    row.style.background = "#FFFDD4";
+  }else if(i!=0){
+    row.style.background = "#FFFFFF";
+  }
   var position = new google.maps.LatLng(
           parseFloat(row.cells[4].innerHTML),
           parseFloat(row.cells[5].innerHTML));
