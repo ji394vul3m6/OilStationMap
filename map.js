@@ -6,6 +6,7 @@ var searchCol=1;
 var markers = [];
 var time_now;
 var check_time;
+var checkChange=false;
 
 function initialize() {
   var mapOptions = {
@@ -16,19 +17,8 @@ function initialize() {
   map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
 
-  if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(function(position){
-      var pos = new google.maps.LatLng(position.coords.latitude,
-                                       position.coords.longitude);
-      map.setCenter(pos);
-      map.setZoom(14);
-      console.log(pos);
-    },function(){
-      //handleNoGeolocation(true);
-    });
-  }else{
-    //handleNoGeolocation(false);
-  }
+  setGeoLocation();
+
   dataId = document.getElementById("datas");
   dataLength = dataId.rows.length;
   showAll();
@@ -45,6 +35,22 @@ function initialize() {
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
+
+function setGeoLocation(){
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(function(position){
+      var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
+      map.setCenter(pos);
+      map.setZoom(14);
+      console.log(pos);
+    },function(){
+      //handleNoGeolocation(true);
+    });
+  }else{
+    //handleNoGeolocation(false);
+  }
+}
 
 function setCenter(key){
   if(key=="全台"){
@@ -110,14 +116,17 @@ function addMark(_map, _position, _title){
 function checktime()
 {
   console.log("checktime");
+  checkChange=true; 
   search(document.getElementById("place"));
+  checkChange=false;
 }
 
 function search(obj){
   clearMarkers();
   console.log(obj.options[obj.selectedIndex].value);
   key=obj.options[obj.selectedIndex].value;
-  setCenter(key);
+  if(!checkChange)
+    setCenter(key);
   check_time = document.getElementById("check-time").checked;
   time_now = new Date();
   if(key=="全台")
