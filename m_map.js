@@ -10,10 +10,6 @@ var checkChange=false;
 
 function initialize() {
 
-  if(isPhone()){
-    document.location.replace("m_index.html");
-  }
-
   var mapOptions = {
     zoom: 8,
     center: new google.maps.LatLng(23.5466, 121.083)
@@ -268,12 +264,8 @@ function isPhone()
   var userAgentInfo=navigator.userAgent;
   var userAgentKeywords=new Array("Android", "iPhone" ,"SymbianOS", "Windows Phone", "iPad", "iPod", "MQQBrowser");
   var flag=false;
-  for (var i=0; i<userAgentKeywords.length; i++){
-    if(userAgentInfo.indexOf(userAgentKeywords[i])!=-1)
-      return true;
+  if(userAgentInfo.indexOf("Windows NT")==-1){
+    flag=true;
   }
-//  if(userAgentInfo.indexOf("Windows NT")==-1){
-//    flag=true;
-//  }
   return flag;
 }
