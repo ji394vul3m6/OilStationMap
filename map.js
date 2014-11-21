@@ -11,7 +11,7 @@ var checkChange=false;
 function initialize() {
 
   if(isPhone()){
-    document.location.replace("http://http://ji394vul3m6.github.io/OilStationMap/m_index.html");
+    document.location.replace("http://ji394vul3m6.github.io/OilStationMap/m_index.html");
   }
 
   var mapOptions = {
