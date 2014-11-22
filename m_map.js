@@ -20,6 +20,8 @@ function initialize() {
 
   setGeoLocation();
 
+  addMarkSelfPosition(map);
+
   dataId = document.getElementById("datas");
   dataLength = dataId.rows.length;
   showAll();
@@ -44,7 +46,7 @@ function setGeoLocation(){
       var pos = new google.maps.LatLng(position.coords.latitude,
                                        position.coords.longitude);
       map.setCenter(pos);
-      map.setZoom(14);
+      map.setZoom(13);
       console.log(pos);
     },function(){
       //handleNoGeolocation(true);
@@ -100,7 +102,7 @@ function codeAddress(address,t) {
   });
 }
 */
-function addMark(_map, _position, _title){
+function addMarkWithHref(_map, _position, _title, _content){
   var contentString;
   if(navigator.geolocation){
     navigator.geolocation.getCurrentPosition(function(position){
@@ -112,7 +114,8 @@ function addMark(_map, _position, _title){
                     '&'+'daddr='+
                     _position.lat().toString()+
                     ','+_position.lng().toString()+
-                    '">'+ _title +'</a></div>';
+                    '">'+ _title +'</a></br>'+
+                    _content + '</div>';
 
       var infowindow = new google.maps.InfoWindow({
         //content: _title
@@ -133,22 +136,29 @@ function addMark(_map, _position, _title){
   }else{
     //handleNoGeolocation(false);
   }
-  /*
-  console.log(contentstring);
-  var infowindow = new google.maps.infowindow({
-    //content: _title
-    content: contentstring
-  });
-  var marker = new google.maps.marker({
-    map: _map,
-    position: _position,
-    title: _title
-  });
-  google.maps.event.addlistener(marker, 'click', function(){
-    infowindow.open(map,marker);
-  });
-  markers.push(marker);
-  */
+}
+
+function addMarkSelfPosition(_map){
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(function(position){
+      var infowindow = new google.maps.InfoWindow({
+        content: '<small>現在位置</small>'
+      });
+      var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
+      var marker = new google.maps.Marker({
+        map: _map,
+        position: pos,
+        icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+      });
+      markers.push(marker);
+      infowindow.open(_map,marker);
+    },function(){
+      //handleNoGeolocation(true);
+    });
+  }else{
+    //handleNoGeolocation(false);
+  }
 }
 
 function checktime()
@@ -214,7 +224,7 @@ function showRow(i){
   var position = new google.maps.LatLng(
           parseFloat(row.cells[4].innerHTML),
           parseFloat(row.cells[5].innerHTML));
-  addMark(map,position,row.cells[0].innerHTML);
+  addMarkWithHref(map,position,row.cells[0].innerHTML,row.cells[1].innerHTML);
 }
 
 function setAllMap(map){
