@@ -79,3 +79,7 @@ html, body {
 #datas td{
   min-width: 70px;
 }
+
+#infoWindow{
+  white-space: nowrap;
+}

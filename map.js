@@ -4,6 +4,7 @@ var dataId;
 var dataLength;
 var searchCol=1;
 var markers = [];
+var showWindow;
 var time_now;
 var check_time;
 var checkChange=false;
@@ -108,12 +109,13 @@ function addMarkWithHref(_map, _position, _title, _content){
     navigator.geolocation.getCurrentPosition(function(position){
       var pos = new google.maps.LatLng(position.coords.latitude,
                                        position.coords.longitude);
-      contentString='<div><a href="https://maps.google.com/maps?saddr='+
+      contentString='<div id="infoWindow"><a href="https://maps.google.com/maps?saddr='+
                     position.coords.latitude.toString()+
                     ','+position.coords.longitude.toString()+
                     '&'+'daddr='+
-                    _position.lat().toString()+
-                    ','+_position.lng().toString()+
+                    _content+
+                    //_position.lat().toString()+
+                    //','+_position.lng().toString()+
                     '">'+ _title +'</a></br>'+
                     _content + '</div>';
 
@@ -127,6 +129,10 @@ function addMarkWithHref(_map, _position, _title, _content){
         title: _title
       });
       google.maps.event.addListener(marker, 'click', function(){
+        if(showWindow){
+          showWindow.close();
+        }
+        showWindow = infowindow;
         infowindow.open(map,marker);
       });
       markers.push(marker);
@@ -151,6 +157,7 @@ function addMarkSelfPosition(_map){
         position: pos,
         icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
       });
+      showWindow = infowindow;
       markers.push(marker);
       infowindow.open(_map,marker);
     },function(){
