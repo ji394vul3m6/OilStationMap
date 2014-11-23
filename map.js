@@ -8,6 +8,8 @@ var showWindow;
 var time_now;
 var check_time;
 var checkChange=false;
+var datas = [];
+var bound;
 
 function initialize() {
 
@@ -20,22 +22,40 @@ function initialize() {
       mapOptions);
 
   setGeoLocation();
-
-  addMarkSelfPosition(map);
-
   dataId = document.getElementById("datas");
   dataLength = dataId.rows.length;
-  showAll();
+
   for (var i=0; i<dataLength; i++){
-    dataId.rows[i].style.height = "25px";
-    dataId.rows[i].cells[0].style.width = "260px"
-    dataId.rows[i].cells[1].style.width = "330px"
-    dataId.rows[i].cells[2].style.width = "75px"
-    dataId.rows[i].cells[2].style.textAlign = "center"
-    dataId.rows[i].cells[3].style.width = "75px"
-    dataId.rows[i].cells[3].style.textAlign = "center"
+    if(!isPhone()){
+      dataId.rows[i].style.height = "25px";
+      dataId.rows[i].cells[0].style.width = "260px"
+      dataId.rows[i].cells[1].style.width = "330px"
+      dataId.rows[i].cells[2].style.width = "75px"
+      dataId.rows[i].cells[2].style.textAlign = "center"
+      dataId.rows[i].cells[3].style.width = "75px"
+      dataId.rows[i].cells[3].style.textAlign = "center"
+    }
+    if(i!=0)
+      datas.push(dataId.rows[i]);
   }
+  for(var i=0; i<datas.length; i++){
+    datas[i].insertCell();
+    datas[i].cells[6].innerHTML="i";
+  }
+  datas = datas.sort(function(a,b){
+    return parseFloat(a.cells[4].innerHTML) - parseFloat(b.cells[4].innerHTML);
+  });
   time_now = new Date();
+
+  bound = map.getBounds();
+
+  showAll();
+  addMarkSelfPosition(map);
+
+  google.maps.event.addListener(map, 'bounds_changed', function(){
+    showAllInRange()
+  });
+  showAllInRange();
 
 }
 
@@ -134,6 +154,7 @@ function addMarkWithHref(_map, _position, _title, _content){
         }
         showWindow = infowindow;
         infowindow.open(map,marker);
+        map.panTo(_position);
       });
       markers.push(marker);
     },function(){
@@ -205,6 +226,30 @@ function showAll(){
     showRow(i);
   }
   hideLnglat();
+}
+
+function showAllInRange(){
+  bound = map.getBounds();
+  for(var i=0; i<datas.length; i++){
+    if(getLatInDatasRow(i) > bound.Ea.k){
+      if(inMapBounds(parseFloat(datas[i].cells[4]), 
+                     parseFloat(datas[i].cells[5]), 
+        map.getBounds())){
+          //handle add/remove marker here
+        }
+    }
+  }
+}
+
+function getLatInDatasRow(i){
+  return parseFloat(datas[i].cells[4].innerHTML);
+}
+
+function inMapBounds(lat,lng,map_bound){
+  if(map_bound.Ea.k<lat && map_bound.Ea.j>lat)
+    if(map_bound.va.j<lng && map_bound.va.k>lng)
+      return true;
+  return false;
 }
 
 function hideLnglat(){
