@@ -1,7 +1,19 @@
 html, body {
   height: 100%;
   margin: 0px;
-  padding: 0px
+  padding: 0px;
+  overflow: hidden;
+}
+
+#error-div{
+  width: 50%;
+  position: absolute;
+  top:30px;
+  left: 0px;
+  height: 50%;
+  background: white;
+  z-index: 21;
+  overflow: scroll;
 }
 
 #type-button{
@@ -47,9 +59,8 @@ html, body {
 }
 
 #choice {
-  /*width: 100%;*/
+  width: 100%;
   top: 0;
-  width: 90%;
   position: fixed;
   background: #BFBFBF;
   height: 30px;

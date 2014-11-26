@@ -9,9 +9,29 @@ var time_now;
 var check_time;
 var checkChange=false;
 var datas = [];
+var dataInRange = [];
 var bound;
 
 function initialize() {
+  //create a div on the right of debug message if in debug mode
+  if(location.href.indexOf("debug")!=-1){
+    error_div = document.createElement("div");
+    error_div.id = "error-div";
+    document.getElementsByTagName("body")[0].appendChild(error_div);
+
+    //redirect console.log to error_div
+    if(typeof console !="undefined")
+      if(typeof console.log != 'undefined')
+        console.olog = console.log;
+      else
+        console.olog = function(){};
+    console.log = function(message){
+      console.olog(message);
+      error_div.innerHTML += (message+'<br>');
+      error_div.scrollTop = error_div.scrollHeight;
+    }
+    console.error = console.debug = console.info = console.log;
+  }
 
   var mapOptions = {
     zoom: 8,
@@ -38,10 +58,14 @@ function initialize() {
     if(i!=0)
       datas.push(dataId.rows[i]);
   }
-  for(var i=0; i<datas.length; i++){
-    datas[i].insertCell();
-    datas[i].cells[6].innerHTML="i";
-  }
+  //if(isPhone()){
+    for(var i=0; i<datas.length; i++){
+      datas[i].insertCell();
+      datas[i].cells[6].innerHTML=(i+1).toString();
+      datas[i].cells[6].style.display="none";
+    }
+  //}
+//  datas = dataId.rows.sort(function(a,b){
   datas = datas.sort(function(a,b){
     return parseFloat(a.cells[4].innerHTML) - parseFloat(b.cells[4].innerHTML);
   });
@@ -49,14 +73,12 @@ function initialize() {
 
   bound = map.getBounds();
 
-  showAll();
   addMarkSelfPosition(map);
-
-  google.maps.event.addListener(map, 'bounds_changed', function(){
-    showAllInRange()
+  google.maps.event.addListener(map, 'idle', function(){
+    console.log("idle event");
+    //showAllInRange()
+    showAll();
   });
-  showAllInRange();
-
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -68,7 +90,6 @@ function setGeoLocation(){
                                        position.coords.longitude);
       map.setCenter(pos);
       map.setZoom(13);
-      console.log(pos);
     },function(){
       //handleNoGeolocation(true);
     });
@@ -232,10 +253,11 @@ function showAllInRange(){
   bound = map.getBounds();
   for(var i=0; i<datas.length; i++){
     if(getLatInDatasRow(i) > bound.Ea.k){
-      if(inMapBounds(parseFloat(datas[i].cells[4]), 
-                     parseFloat(datas[i].cells[5]), 
-        map.getBounds())){
+      if(inMapBounds(parseFloat(datas[i].cells[4].innerHTML), 
+                     parseFloat(datas[i].cells[5].innerHTML), 
+        bound)){
           //handle add/remove marker here
+          //dataInRange.push(datas[i]);
         }
     }
   }
@@ -326,8 +348,10 @@ function isPhone()
   var userAgentInfo=navigator.userAgent;
   var userAgentKeywords=new Array("Android", "iPhone" ,"SymbianOS", "Windows Phone", "iPad", "iPod", "MQQBrowser");
   var flag=false;
-  if(userAgentInfo.indexOf("Windows NT")==-1){
-    flag=true;
+  for(var i=0; i<userAgentKeywords.length; i++){
+    if(userAgentInfo.indexOf(userAgentKeywords[i])!=-1){
+      flag=true;
+    }
   }
   return flag;
 }
