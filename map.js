@@ -272,16 +272,18 @@ function showRow(i){
   startTime = row.cells[2].innerHTML.split(":");
   endTime = row.cells[3].innerHTML.split(":");
   if(check_time){
-    if(!timeInRange(startTime,endTime,time_now))
+    if(!timeInRange(startTime,endTime,time_now) && i!=0){
+      row.style.display="none";
       return;
+    }
   }
-  if(!isPhone()){
+  /*if(!isPhone()){
     if(check_time){
       row.style.background = "#FFFDD4";
     }else if(i!=0){
       row.style.background = "#FFFFFF";
     }
-  }
+  }*/
   var position = new google.maps.LatLng(
           parseFloat(row.cells[4].innerHTML),
           parseFloat(row.cells[5].innerHTML));
