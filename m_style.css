@@ -5,6 +5,10 @@ html, body {
   overflow: hidden;
 }
 
+#command{
+  width: 100%;
+}
+
 #error-div{
   width: 50%;
   position: absolute;
