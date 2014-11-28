@@ -223,7 +223,7 @@ function checktime()
 }
 
 function search(obj){
-  clearMarkers();
+  deleteMarkers();
   if(showWindow)
     showWindow.close();
   key=obj.options[obj.selectedIndex].value;
